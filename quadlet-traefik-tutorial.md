@@ -1050,7 +1050,7 @@ Add all files and push to the remote repository:
 ```bash
 git add .
 git commit -m "Complete Traefik configuration with tutorial and README"
-git push -u origin
+git push -u origin main
 ```
 
 ---
