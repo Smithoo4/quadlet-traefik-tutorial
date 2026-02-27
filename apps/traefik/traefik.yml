@@ -33,7 +33,6 @@ certificatesResolvers:
   letsencrypt:
     acme:
       storage: /acme/acme.json
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory  # Staging for testing
       keyType: EC384
       dnsChallenge:
         provider: duckdns
@@ -55,7 +54,7 @@ providers:
 
 # Logging
 log:
-  level: DEBUG  # Set to WARN for production
+  level: WARN
   format: common
 
 # Access Logs
