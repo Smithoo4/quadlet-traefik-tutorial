@@ -1,0 +1,47 @@
+[Unit]
+Description=Traefik Reverse Proxy
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=%h/.config/containers/apps/traefik
+
+[Container]
+Image=docker.io/traefik:v3
+AutoUpdate=registry
+
+# Container Name
+ContainerName=traefik
+
+# Network
+Network=proxy
+
+# Published Ports
+PublishPort=80:80
+PublishPort=443:443
+PublishPort=443:443/udp
+
+# Volume Mounts
+Volume=%h/.config/containers/apps/traefik/traefik.yml:/etc/traefik/traefik.yml:ro,Z
+Volume=%h/.config/containers/apps/traefik/dynamic:/etc/traefik/dynamic:ro,Z
+Volume=traefik-acme:/acme:Z
+Volume=%t/podman/podman.sock:/var/run/podman/podman.sock:ro
+
+# Secrets
+Secret=duckdns_token,type=env,target=DUCKDNS_TOKEN
+
+# SELinux
+SecurityLabelDisable=true
+
+# Labels for Traefik Dashboard
+Label=traefik.enable=true
+Label=traefik.http.routers.dashboard.rule=Host(`traefik.smithoo4.duckdns.org`)
+Label=traefik.http.routers.dashboard.entrypoints=websecure
+Label=traefik.http.routers.dashboard.tls.certresolver=letsencrypt
+Label=traefik.http.routers.dashboard.service=api@internal
+Label=traefik.http.routers.dashboard.middlewares=basic-auth@file
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

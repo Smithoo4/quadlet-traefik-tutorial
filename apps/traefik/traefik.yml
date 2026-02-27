@@ -1,0 +1,63 @@
+# Global Configuration
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+# API and Dashboard
+api:
+  dashboard: true
+  insecure: false  # Dashboard is only accessible via Traefik routing
+
+# Entry Points
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+
+  websecure:
+    address: ":443"
+    http3: {}
+    http:
+      middlewares:
+        - security-headers@file
+      tls:
+        certResolver: letsencrypt
+
+# Certificate Resolvers
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      storage: /acme/acme.json
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory  # Staging for testing
+      keyType: EC384
+      dnsChallenge:
+        provider: duckdns
+        delayBeforeCheck: 0
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+
+# Providers
+providers:
+  docker:
+    endpoint: "unix:///var/run/podman/podman.sock"
+    exposedByDefault: false
+    network: proxy
+
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+# Logging
+log:
+  level: DEBUG  # Set to WARN for production
+  format: common
+
+# Access Logs
+accessLog:
+  format: common
