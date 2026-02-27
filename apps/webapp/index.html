@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Web App</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .success {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Success!</h1>
+        <p class="success">Your web application is being proxied through Traefik.</p>
+        <div class="info">
+            <h3>What's Happening:</h3>
+            <ul>
+                <li>This page is served by an Nginx container</li>
+                <li>Traefik is reverse proxying the request</li>
+                <li>HTTPS is automatically handled by Traefik</li>
+                <li>Certificate is issued by Let's Encrypt</li>
+                <li>Security headers are applied globally</li>
+            </ul>
+        </div>
+        <p><strong>Subdomain:</strong> webapp.smithoo4.duckdns.org</p>
+        <p><strong>Served by:</strong> Nginx (rootless container)</p>
+        <p><strong>Proxied by:</strong> Traefik v3</p>
+    </div>
+</body>
+</html>

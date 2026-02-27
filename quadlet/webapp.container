@@ -1,0 +1,33 @@
+[Unit]
+Description=Demo Web Application
+Wants=network-online.target
+After=network-online.target traefik.service
+RequiresMountsFor=%h/.config/containers/apps/webapp
+
+[Container]
+Image=docker.io/library/nginx:alpine
+AutoUpdate=registry
+
+# Container Name
+ContainerName=webapp
+
+# Network
+Network=proxy
+
+# Volume Mounts
+Volume=%h/.config/containers/apps/webapp/index.html:/usr/share/nginx/html/index.html:ro,Z
+Volume=%h/.config/containers/apps/webapp/nginx.conf:/etc/nginx/conf.d/default.conf:ro,Z
+
+# Traefik Labels
+Label=traefik.enable=true
+Label=traefik.http.routers.webapp.rule=Host(`webapp.smithoo4.duckdns.org`)
+Label=traefik.http.routers.webapp.entrypoints=websecure
+Label=traefik.http.routers.webapp.tls.certresolver=letsencrypt
+Label=traefik.http.services.webapp.loadbalancer.server.port=80
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
