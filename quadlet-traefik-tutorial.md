@@ -1050,8 +1050,41 @@ Add all files and push to the remote repository:
 ```bash
 git add .
 git commit -m "Complete Traefik configuration with tutorial and README"
-git push -u origin main
+git push -u origin
 ```
+
+### 5. Backup ACME Certificates (Optional)
+
+**Note**: This backup is not necessary as Let's Encrypt certificates can be easily recreated. However, Let's Encrypt has rate limits (50 certificates per registered domain per week), which could become an issue during testing and experimentation. Keeping a backup can help avoid hitting these limits.
+
+#### Export acme.json from VM
+
+From the VM, copy the `acme.json` file to a temporary location:
+
+```bash
+podman unshare cp ~/.local/share/containers/storage/volumes/traefik-acme/_data/acme.json ~/acme.json.backup
+chmod 644 ~/acme.json.backup
+```
+
+#### Download to Local Machine
+
+From your local machine (host OS), download the backup:
+
+```bash
+scp username@vm-hostname:~/acme.json.backup ./acme.json.backup
+```
+
+Replace `username` with your VM username and `vm-hostname` with your VM's hostname or IP address.
+
+#### Clean Up Temporary File on VM
+
+Back on the VM, remove the temporary backup file:
+
+```bash
+rm ~/acme.json.backup
+```
+
+Store this backup safely on your local machine. If you need to restore it later, reverse the process: upload the file to the VM and copy it back into the volume using `podman unshare`.
 
 ---
 
@@ -1093,6 +1126,6 @@ podman logs --tail 50 traefik
 
 ---
 
-**Tutorial Version**: 2.8  
+**Tutorial Version**: 2.9  
 **Last Updated**: February 2026  
 **Tested On**: OpenSUSE MicroOS with Podman 5.7.1
