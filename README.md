@@ -6,7 +6,8 @@ Rootless Podman container management with Quadlet and Traefik reverse proxy.
 
 - `quadlet/` - Quadlet unit files (symlinked from `~/.config/containers/systemd`)
 - `apps/` - Application configurations (symlinked from `~/.config/containers/apps`)
-- `quadlet-traefik-tutorial.md` - Complete setup tutorial
+- `quadlet-traefik-tutorial.md` - Complete initial setup tutorial
+- `quadlet-traefik-restore-tutorial.md` - Restore tutorial (new VM / disaster recovery)
 
 ## Services
 
@@ -25,4 +26,6 @@ Rootless Podman container management with Quadlet and Traefik reverse proxy.
 
 ## Documentation
 
-See `quadlet-traefik-tutorial.md` for complete setup instructions.
+See `quadlet-traefik-tutorial.md` for complete initial setup instructions.
+
+See `quadlet-traefik-restore-tutorial.md` for restore and disaster recovery instructions.
